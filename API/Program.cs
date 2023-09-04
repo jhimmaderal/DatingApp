@@ -1,19 +1,15 @@
-using API.Data;
-using Microsoft.EntityFrameworkCore;
+using System.Text;
+using API.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-
 builder.Services.AddControllers();
-
-// Add Sql Connection String
-builder.Services.AddDbContext<DataContext>(opt => 
-{
-  opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-builder.Services.AddCors(); // Add Services for API
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -23,10 +19,9 @@ var app = builder.Build();
 // Allow Access multiorigin webserver to api
 app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 
-app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization(); 
 
-app.UseAuthorization();
-
-app.MapControllers();
+app.MapControllers(); //Access Controllers
 
 app.Run();
