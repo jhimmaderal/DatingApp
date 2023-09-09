@@ -42,7 +42,7 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true } // INTERCEPTOR
   ],
   bootstrap: [AppComponent]
 })

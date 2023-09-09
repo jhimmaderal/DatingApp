@@ -11,11 +11,13 @@ namespace API.Extensions
         {
             services.AddDbContext<DataContext>(opt =>
             {
-                opt.UseSqlite(config.GetConnectionString("DefaultConnection")); // SQLITE CONNECTION STRING
-            });
+                opt.UseSqlite(config.GetConnectionString("DefaultConnection")); 
+            });// SQLITE CONNECTION STRING
+
             services.AddCors();     //API SERVICES 
             services.AddScoped<ITokenService, TokenService>(); //TOKEN SERVICES
-
+            services.AddScoped<IUserRepository, UserRepository>(); // USER REPOSITRY
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // AUTOMAPPER
             return services;
         }
     }
