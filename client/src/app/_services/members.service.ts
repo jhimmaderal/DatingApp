@@ -33,8 +33,17 @@ export class MembersService {
     return this.http.put(this.baseUrl + 'users', member).pipe(
       map(() => {
         const index = this.members.indexOf(member);
-        this.members[index]= {...this.members[index], ...member} //SPREAD OPERATOR TO TAKE ALL ELEMENTS IN MEMBERS , UPDATE THIS.MEMBER TO PARAM MEMBERS
+        this.members[index] = { ...this.members[index], ...member } //SPREAD OPERATOR TO TAKE ALL ELEMENTS IN MEMBERS , UPDATE THIS.MEMBER TO PARAM MEMBERS
       })
     ) // ACCESS CLIENT TO API REQUEST
   }
+
+  setMainPhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
+  }
+
+  deletePhoto(photoId: number) {
+    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
+  }
+
 }

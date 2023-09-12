@@ -1,5 +1,3 @@
-using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using API.Data;
@@ -43,9 +41,8 @@ namespace API.Controllers
       return new UserDto
       {
         Username = user.UserName,
-        Token = _tokenService.CreateToken(user)
+        Token = _tokenService.CreateToken(user),
       };
-
     }
     private async Task<bool> UserExist(string username)
     {
@@ -57,7 +54,9 @@ namespace API.Controllers
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-      var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);  //CHECK USERNAME
+      var user = await _context.Users
+      .Include(p=> p.Photos)
+      .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);  //CHECK USERNAME
 
       if (user == null) return Unauthorized("Invalid Username");
 
@@ -69,10 +68,12 @@ namespace API.Controllers
       {
         if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
       };
+
       return new UserDto
       {
         Username = user.UserName,
-        Token = _tokenService.CreateToken(user)
+        Token = _tokenService.CreateToken(user),
+        PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
       };
     }
   }

@@ -4,6 +4,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ToastrModule } from 'ngx-toastr';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [],
@@ -11,18 +12,20 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     CommonModule,
     BsDropdownModule.forRoot(), //ANGULAR DROPDOWN
     TabsModule.forRoot(), //ANGULAR MODULE
-    ToastrModule.forRoot({ 
+    ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
     }), // ANGULAR TOASTR
     NgxSpinnerModule.forRoot({
       type: 'line-scale-party'
-    }) // ANGULAR SPINNER
+    }), // ANGULAR SPINNER
+    FileUploadModule
   ],
   exports: [
     BsDropdownModule,
     ToastrModule,
     TabsModule,
-    NgxSpinnerModule //ADD SERVICE INTERCEPTOR IN BETWEEN HTTP REQUEST
+    NgxSpinnerModule, //ADD SERVICE INTERCEPTOR IN BETWEEN HTTP REQUEST
+    FileUploadModule
   ]
 })
 export class SharedModule { }
